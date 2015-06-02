@@ -1,0 +1,1 @@
+VERY simple circuit simulator. Parses txt and counts voltages and currents, maybe.
