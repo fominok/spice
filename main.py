@@ -1,6 +1,8 @@
 import sys
 
 from parser import Parser
+from stamp_builder import StampBuilder
+from gaussian import gaussian_elimintaion
 import spicemix
 
 
@@ -20,7 +22,7 @@ def find_n_m_size(comp_list):
         if isinstance(comp, spicemix.Voltage):
             voltage_number += 1
 
-    return max_value + voltage_number + 1
+    return max_value + 1, voltage_number
 
 
 def main(args):
@@ -36,6 +38,15 @@ def main(args):
             comp = parser.next_entry(line)
             if comp is not None:
                 components.append(comp)
+
+    n, m = find_n_m_size(components)
+    builder = StampBuilder(n, m)
+    for comp in components:
+        builder.add_component(comp)
+    builder.clear_zer()
+    a, z = builder.get_a_z()
+
+    solution = gaussian_elimintaion(a, z)
 
 
 if __name__ == '__main__':

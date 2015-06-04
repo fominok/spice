@@ -9,7 +9,10 @@ class Parser():
     def next_entry(self, entry: str) -> spicemix.Component:
         """Parse next entry and return Component"""
         entry = entry.strip()
-        if entry[0] == '*':
+        try:
+            if entry[0] == '*':
+                return None # Omg in one line it doesnt work
+        except IndexError as e:
             return None
 
         # Warning: regular expressions here
