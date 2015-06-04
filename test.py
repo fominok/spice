@@ -1,12 +1,13 @@
 import unittest
 import parser
 import spicemix
+import gaussian
 
 from main import find_n_m_size
 from stamp_builder import StampBuilder
 
 
-class ParserTests(unittest.TestCase):
+class ParserStampTests(unittest.TestCase):
     def setUp(self):
         self.entries = {'* Whole line comment': None,
                         'R1 1 2 1 * Это комментарий':
@@ -33,10 +34,10 @@ class ParserTests(unittest.TestCase):
         self.matrix_z = [0, 0, -0.3, 0.3, 2]
 
         self.cut_matrix_a = [[1, -1, 0, 1],
-                         [-1, 1.5, 0, 0],
-                         [0, 0, 1/3, 0],
-                         [1, 0, 0, 0]
-                         ]
+                             [-1, 1.5, 0, 0],
+                             [0, 0, 1/3, 0],
+                             [1, 0, 0, 0]
+                             ]
 
         self.cut_matrix_z = [0, -0.3, 0.3, 2]
 
@@ -72,6 +73,30 @@ class ParserTests(unittest.TestCase):
         builder_a, builder_z = self.builder.get_a_z()
         self.assertEqual(self.cut_matrix_a, builder_a)
         self.assertEqual(self.cut_matrix_z, builder_z)
+
+
+class GaussianTest(unittest.TestCase):
+
+    """Test for gaussian elimination"""
+
+    def setUp(self):
+        self.matrix = [[2, 5, 7], [6, 3, 4], [5, -2, -3]]
+        self.matrix_transposed = [[2, 6, 5], [5, 3, -2], [7, 4, -3]]
+        self.epic_matrix = [[3, -3, -5, 8], [-3, 2, 4, -6],
+                            [2, -5, -7, 5], [-4, 3, 5, -6]]
+        self.minor_0_1 = [[6, 4], [5, -3]]
+        self.minor_1_2 = [[2, 5], [5, -2]]
+        self.det = -1
+        self.epic_det = 18
+
+    def test_minor_determinant(self):
+        self.assertEqual(self.minor_0_1, gaussian.minor(self.matrix, 0, 1))
+        self.assertEqual(self.minor_1_2, gaussian.minor(self.matrix, 1, 2))
+        self.assertEqual(self.det, gaussian.determinant(self.matrix))
+        self.assertEqual(self.epic_det, gaussian.determinant(self.epic_matrix))
+    
+    def test_transpose(self):
+        self.assertEqual(self.matrix_transposed, gaussian.transpose(self.matrix))
 
 
 if __name__ == '__main__':
