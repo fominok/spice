@@ -74,6 +74,8 @@ class ParserStampTests(unittest.TestCase):
         self.assertEqual(self.cut_matrix_a, builder_a)
         self.assertEqual(self.cut_matrix_z, builder_z)
 
+        gaussian.print_matrix(gaussian.gaussian_elimintaion(self.cut_matrix_a, self.cut_matrix_z))
+
 
 class GaussianTest(unittest.TestCase):
 
