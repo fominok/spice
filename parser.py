@@ -16,7 +16,7 @@ class Parser():
             return None
 
         # Warning: regular expressions here
-        re_str = '^(?P<type>\w)(?P<id>\d+)\s(?P<p_node>\d+)\s(?P<n_node>\d+)\s(?P<val>[-+]?\d*\.\d+|\d+)'
+        re_str = '^(?P<type>\w)(?P<id>\d+)\s(?P<p_node>\d+)\s(?P<n_node>\d+)(\s(?P<val>[-+]?\d*\.\d+|\d+))?'
         parse_re = re.compile(re_str, re.A)
         match = parse_re.search(entry)
 
@@ -24,6 +24,10 @@ class Parser():
         id = int(match.group('id'))
         p_node = int(match.group('p_node'))
         n_node = int(match.group('n_node'))
-        val = float(match.group('val'))
+        try:
+            val = float(match.group('val'))
+        except TypeError as e:
+            val = None
+
 
         return spicemix.spice_factory(char, id, p_node, n_node, val)
