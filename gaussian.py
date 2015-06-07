@@ -70,11 +70,11 @@ def gaussian_elimintaion(matrix_a, matrix_z) -> []:
     for i in range(lnm):
         for j in range(lnm):
             minors_matrix[i][j] = (-1)**(i + j) * \
-                    determinant(minor(matrix_a, i, j))
+                                  determinant(minor(matrix_a, i, j))
 
     transposed_matrix = transpose(minors_matrix)
-    result_a = mul_by_number(transposed_matrix, (1 / det ))
-    
+    result_a = mul_by_number(transposed_matrix, (1 / det))
+
     the_x_matrix = [[0] for x in range(lnm)]
     for i in range(lnm):
         the_x_matrix[i] = sum([x * y for x, y in zip(result_a[i], matrix_z)])

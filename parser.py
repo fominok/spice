@@ -24,10 +24,9 @@ class Parser():
         id = int(match.group('id'))
         p_node = int(match.group('p_node'))
         n_node = int(match.group('n_node'))
-        try:
+        if match.group('val') is not None:
             val = float(match.group('val'))
-        except TypeError as e:
+        else:
             val = None
-
 
         return spicemix.spice_factory(char, id, p_node, n_node, val)
