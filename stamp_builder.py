@@ -1,3 +1,4 @@
+from math import exp
 import spicemix
 
 
@@ -41,8 +42,14 @@ class StampBuilder():
             self.__matrix_z[col_row] = val
 
         elif isinstance(component, spicemix.Current):
-            self.__matrix_z[p_num] = -val
-            self.__matrix_z[n_num] = val
+            self.__matrix_z[p_num] -= val
+            self.__matrix_z[n_num] += val
+
+        elif isinstance(component, spicemix.Diode):
+            eq_res, eq_cur = component.get_equivalents()
+            self.add_component(eq_res)
+            self.add_component(eq_cur)
+
 
     def clear_zer(self):
         if self.__uncl:
