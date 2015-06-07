@@ -71,6 +71,7 @@ def main(args):
 
     if len(comps_diodes) > 0:
         the_p = comps_diodes[len(comps_diodes) - 1].get_p_node()
+        min = start_appr
         while True:
             prepared_builder = deepcopy(builder)
             for d in comps_diodes:
@@ -80,7 +81,12 @@ def main(args):
             solution = gaussian_elimintaion(a, z)
             print_matrix(solution)
             for d in comps_diodes:
-                d.set_vol_zero(solution[the_p - 1])
+                kek = d.get_p_node() - 1
+                if solution[kek] < min:
+                    min = solution[kek]
+                    the_p = kek
+            for d in comps_diodes:
+                d.set_vol_zero(solution[the_p])
             dx = fabs(comps_diodes[0].get_value() - prev)
             prev = comps_diodes[0].get_value()
             if dx < eps:
